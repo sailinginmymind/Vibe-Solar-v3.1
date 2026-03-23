@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vibe Solar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container">
+    <h2 id="camper-name-display">IL MIO CAMPER</h2>
+
+    <div id="view-live" class="view active">
+        <button id="btn-gps" class="btn-live">📡 AGGIORNA GPS E ORA ATTUALE</button>
+        <div id="main-card" class="card">
+            <div id="sky-box" class="solar-system">
+                <div id="stars-container"></div>
+                <div id="sun-body"></div> 
+                <div class="horizon-mask"></div>
+                <div class="horizon-data">
+                    <div class="h-label">ALBA<br><span id="sunrise-txt">--:--</span></div>
+                    <div class="h-label" style="text-align:right">TRAMONTO<br><span id="sunset-txt">--:--</span></div>
+                </div>
+                <div class="core-display">
+                    <span id="display-hour-center">--:--</span>
+                    <span id="r-cloud-percent">--%</span>
+                    <span class="sub-label">NUBI</span>
+                </div>
+            </div>
+           <div class="power-display-container">
+                <div class="power-sub">
+                    <span class="sub-w-label">FISSO</span>
+                    <span id="w_services" class="small-w">0 W</span>
+                </div>
+                <div class="power-main">
+                    <span id="w_out" class="big-w">0 W</span>
+                    <span id="unit-label" class="unit-hint">TOTALE</span>
+                </div>
+                <div class="power-sub">
+                    <span class="sub-w-label">POWER STATION</span>
+                    <span id="w_ps" class="small-w">0 W</span>
+                </div>
+            </div>
+            <div class="weather-badges">
+                <div class="w-badge"><span class="w-label">VENTO</span><span id="r-wind" class="w-val">--</span></div>
+                <div class="w-badge"><span class="w-label">UMIDITÀ</span><span id="r-hum" class="w-val">--</span></div>
+                <div class="w-badge"><span class="w-label">TEMP.</span><span id="r-temp" class="w-val">--</span></div>
+            </div>
+            <div class="manual-controls">
+                <input type="time" id="input-time" class="manual-input">
+                <input type="date" id="input-date" class="manual-input">
+                <input type="number" id="input-lat" placeholder="Lat" class="manual-input" step="0.01">
+                <input type="number" id="input-lng" placeholder="Lng" class="manual-input" step="0.01">
+            </div>
+            <div id="location-display" class="location-box" style="margin-top: 15px; text-align: center; font-size: 0.8rem; color: #94a3b8;">
+                📍 <input type="text" id="city-input" placeholder=" CERCO POSIZIONE ..." 
+                    style="background: transparent; border: none; border-bottom: 1px solid #38bdf8; color: #38bdf8; font-weight: bold; text-transform: uppercase; text-align: center; outline: none; width: 60%;">
+            </div>
+        </div>
+    </div> 
+
+  <div id="view-energy" class="view">
+    <div class="card">
+        <div id="detail-display" style="text-align:center; color:#fbbf24; font-weight:bold; margin-bottom:10px; min-height:1.5em;">
+            Tocca una barra per i dettagli
+        </div>
+        <h3 class="section-title">PREVISIONE ODIERNA</h3>
+        <div id="hourly-chart" class="chart-container"></div>
+        <div class="total-display-box">
+            <div class="label-stack">
+                <span>PRODUZIONE</span>
+                <span>TOTALE <span class="eq-symbol">=</span></span>
+            </div>
+            <div class="value-huge" id="total-wh-day">0 Wh</div>
+        </div>
+        <div id="days-selector" class="days-container"></div>
+        <div class="scroll-hint">← trascina per vedere altri giorni →</div>
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:20px 0;">
+   <div class="config-group" style="border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.01); margin: 20px 0 25px 0;">
+    <div class="group-header" style="background: rgba(255, 255, 255, 0.03); color: #94a3b8; display: flex; justify-content: space-between; align-items: center; padding-right: 10px;">
+        <span>OTTIMIZZAZIONE INCLINAZIONE</span>
+        <button id="btn-auto-tilt" style="background: #38bdf8; color: #0f172a; border: none; border-radius: 4px; padding: 2px 8px; font-size: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;">AUTO ✨</button>
+    </div>
+    <div style="padding: 15px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="font-size: 11px; color: #64748b; letter-spacing: 1px; font-weight: bold;">📐 ANGOLO PANNELLI (TILT)</span>
+            <div style="color: #fbbf24; font-weight: bold;"> <span id="tilt-val" style="font-size: 1.3rem;">0</span>°
+            </div>
+        </div>
+        
+        <input type="range" id="tilt-slider" class="styled-slider" min="0" max="90" step="5" value="0" style="width: 100%; cursor: pointer;">
+        
+        <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.65rem; color: #64748b; text-transform: uppercase; font-weight: bold;">
+            <span>Piano (0°)</span>
+            <span>Verticale (90°)</span>
+        </div>
+        <div id="tilt-hint" style="font-size: 10px; color: #fbbf24; text-align: center; margin-top: 10px; font-style: italic; display: none;">
+            Angolo ottimale suggerito: <span id="optimum-tilt-val">--</span>°
+        </div>
+    </div>
+</div>
+        <h3 class="section-title">STATO CARICA</h3>
+        <div class="dual-slider-container">
+            
+            <div class="slider-box">
+                <div class="slider-header">
+                    <span>BATT SERVIZIO</span>
+                    <span id="soc-val" class="soc-number">50%</span>
+                </div>
+                <input type="range" id="soc-slider" min="0" max="100" value="50">
+                <div class="report-grid mini">
+                    <div class="report-item">
+                        <span class="lbl">A 80%</span>
+                        <b class="val" id="batt_charge_80_txt">--</b>
+                    </div>
+                    <div class="report-item">
+                        <span class="lbl">A 90%</span>
+                        <b class="val" id="batt_charge_90_txt">--</b>
+                    </div>
+                    <div class="report-item">
+                        <span class="lbl">A 100%</span>
+                        <b class="val" id="batt_charge_100_txt">--</b>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-box">
+                <div class="slider-header">
+                    <span>POWER STATION</span>
+                    <span id="ps-soc-val" class="soc-number">50%</span>
+                </div>
+                <input type="range" id="ps-soc-slider" min="0" max="100" value="50">
+                <div class="report-grid mini">
+                    <div class="report-item">
+                        <span class="lbl">A 80%</span>
+                        <b class="val" id="ps_charge_80_txt">--</b>
+                    </div>
+                    <div class="report-item">
+                        <span class="lbl">A 90%</span>
+                        <b class="val" id="ps_charge_90_txt">--</b>
+                    </div>
+                    <div class="report-item">
+                        <span class="lbl">A 100%</span>
+                        <b class="val" id="ps_charge_100_txt">--</b>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+   <div id="view-garage" class="view">
+        <div class="card">
+            <h3 class="section-title">GARAGE</h3>
+            
+            <div class="garage-input-group" style="margin-bottom: 25px;">
+                <input type="text" id="camper_name_input" placeholder="NOME CAMPER" class="manual-input">
+                <button id="btn-save-name" class="mini-btn">💾</button>
+            </div>
+
+            <div class="config-group camper-border">
+                <div class="group-header">IMPIANTO FISSO CAMPER</div>
+                <div class="config-grid-row">
+                    <div class="config-cell">
+                        <div class="cell-label">🔋 BATTERIA SERVIZI</div>
+                        <div class="cell-value">
+                            <span id="batt_val">0</span> <span class="unit-label">Ah</span>
+                            <button onclick="editSpec('batt')" class="edit-mini-btn">EDIT</button>
+                        </div>
+                        <div style="font-size: 11px; color: #38bdf8; margin-top: 4px; font-weight: bold;">
+                            <span id="batt_conv_val">0</span> Wh
+                        </div>
+                    </div>
+                    <div class="config-cell">
+                        <div class="cell-label">☀️ PANNELLI DI S.</div>
+                        <div class="cell-value">
+                            <span id="panel_val">0</span> W 
+                            <button onclick="editSpec('pan')" class="edit-mini-btn">EDIT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-group ps-border">
+                <div class="group-header">UNITÀ PORTATILE / PS</div>
+                <div class="config-grid-row">
+                    <div class="config-cell">
+                        <div class="cell-label">🔌 POWER STATION</div>
+                        <div class="cell-value">
+                            <span id="ps_val">0</span> <span class="unit-label">Wh</span>
+                            <button onclick="editSpec('ps')" class="edit-mini-btn">EDIT</button>
+                        </div>
+                        <div style="font-size: 11px; color: #fbbf24; margin-top: 4px; font-weight: bold;">
+                            <span id="ps_conv_val">0</span> Ah
+                        </div>
+                    </div>
+                    <div class="config-cell">
+                        <div class="cell-label">☀️ PANNELLI PS</div>
+                        <div class="cell-value">
+                            <span id="panel_ps_val">0</span> W 
+                            <button onclick="editSpec('panPs')" class="edit-mini-btn">EDIT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                <span style="font-size: 11px; color: #94a3b8; letter-spacing: 1px;">🎨 COLORE INTERNI</span>
+                <div style="display: flex; gap: 10px;">
+                    <div onclick="changeBg('#0f172a')" style="width: 24px; height: 24px; border-radius: 50%; background: #0f172a; border: 1px solid #38bdf8; cursor: pointer;"></div>
+                    <div onclick="changeBg('#1a1a1a')" style="width: 24px; height: 24px; border-radius: 50%; background: #1a1a1a; border: 1px solid #64748b; cursor: pointer;"></div>
+                    <div onclick="changeBg('#062c1f')" style="width: 24px; height: 24px; border-radius: 50%; background: #062c1f; border: 1px solid #10b981; cursor: pointer;"></div>
+                    <div onclick="changeBg('#2d0a1a')" style="width: 24px; height: 24px; border-radius: 50%; background: #2d0a1a; border: 1px solid #f43f5e; cursor: pointer;"></div>
+                </div>
+            </div>
+        </div> 
+   </div> 
+
+
+    <nav class="nav-bar">
+        <div class="nav-item active" data-view="live">
+            <span>🛰️</span>
+            <small>DASHBOARD</small>
+        </div>
+        <div class="nav-item" data-view="energy">
+            <span>📊</span>
+            <small>REPORT</small>
+        </div>
+        <div class="nav-item" data-view="garage">
+            <span>🚐</span>
+            <small>GARAGE</small>
+        </div>
+    </nav>
+
+</div> 
+
+<script src="weather-api.js"></script>
+<script src="solar-engine.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>

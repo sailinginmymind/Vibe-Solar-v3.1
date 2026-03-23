@@ -1,0 +1,1087 @@
+/* =================================================================
+   STYLE.CSS — Vibe Solar v3.0
+   Organizzazione: Temi → Reset → Layout → Componenti → Navbar → Media Query
+   ================================================================= */
+
+
+/* -----------------------------------------------------------------
+   1. VARIABILI CSS (TEMI)
+   ----------------------------------------------------------------- */
+
+:root {
+    --bg-puro:  #0f172a;
+    --accento:  #38bdf8;
+    --bg-card:  rgba(30, 41, 59, 0.7);
+    --bg-badge: rgba(56, 189, 248, 0.15);
+}
+
+body.tema-verde {
+    --bg-puro:  #062c1f;
+    --accento:  #10b981;
+    --bg-card:  rgba(6, 44, 31, 0.8);
+    --bg-badge: rgba(16, 185, 129, 0.15);
+}
+
+body.tema-rosso {
+    --bg-puro:  #2d0a1a;
+    --accento:  #f43f5e;
+    --bg-card:  rgba(45, 10, 26, 0.8);
+    --bg-badge: rgba(244, 63, 94, 0.15);
+}
+
+body.tema-grigio {
+    --bg-puro:  #1a1a1a;
+    --accento:  #94a3b8;
+    --bg-card:  rgba(35, 35, 35, 0.8);
+    --bg-badge: rgba(255, 255, 255, 0.05);
+}
+
+
+/* -----------------------------------------------------------------
+   2. RESET & BASE
+   ----------------------------------------------------------------- */
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg-puro);
+    color: white;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding-bottom: 140px;
+    transition: background-color 0.4s ease;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 15px;
+    padding-bottom: 100px;
+    overflow-x: hidden;
+}
+
+
+/* -----------------------------------------------------------------
+   3. VISTE & ANIMAZIONI
+   ----------------------------------------------------------------- */
+
+.view { display: none; animation: fadeIn 0.3s ease-out; }
+.view.active { display: block; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* -----------------------------------------------------------------
+   4. TIPOGRAFIA & TITOLI
+   ----------------------------------------------------------------- */
+
+h2 {
+    margin: 10px 0 15px 0;
+    letter-spacing: 4px;
+    color: #38bdf8;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+/* Il nome del camper segue il colore del tema attivo */
+#camper-name-display {
+    color: var(--accento) !important;
+    text-shadow: 0 0 10px var(--accento);
+    transition: all 0.4s ease;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.section-title {
+    color: var(--accento) !important;
+    text-align: center;
+    text-shadow: 0 0 5px rgba(56, 189, 248, 0.3);
+    font-size: 15px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+
+/* -----------------------------------------------------------------
+   5. CARD
+   ----------------------------------------------------------------- */
+
+.card {
+    background: var(--bg-card) !important;
+    border-radius: 28px;
+    padding: 25px;
+    border: 1px solid var(--accento) !important;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* -----------------------------------------------------------------
+   6. SISTEMA SOLARE (CIELO ANIMATO)
+   ----------------------------------------------------------------- */
+
+.solar-system {
+    position: relative;
+    height: 240px;
+    width: 100%;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #1e293b;
+    transition: background 1.5s ease;
+}
+
+#stars-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    opacity: 0;
+    transition: opacity 2s;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+}
+
+#sun-body {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, #fbbf24 20%, #f59e0b 60%, #ea580c 100%);
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 0 50px #fbbf24;
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translate(-50%, -50%);
+}
+
+.horizon-mask {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: #1e293b;
+    z-index: 4;
+    border-top: 3px solid #fbbf24;
+    transition: background 1.5s;
+}
+
+/* Orizzonte dati: alba e tramonto */
+.horizon-data {
+    position: absolute;
+    bottom: 12px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 6;
+    padding: 0 45px;
+    box-sizing: border-box;
+}
+
+.h-label {
+    font-size: 14px;
+    color: var(--accento) !important;
+    font-weight: 900;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+#sunrise-txt,
+#sunset-txt {
+    color: #fff !important;
+    font-size: 24px !important;
+    font-weight: 900;
+    display: block;
+    margin-top: 5px;
+    text-shadow: 0 0 10px var(--accento);
+}
+
+/* Display centrale circolare (ora + nubi) */
+.core-display {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0f172a;
+    border: 4px solid #334155;
+    width: 130px !important;
+    height: 130px !important;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+#display-hour-center {
+    font-size: 28px !important;
+    font-weight: 900;
+    color: #fbbf24;
+    line-height: 1;
+}
+
+#r-cloud-percent {
+    font-size: 24px !important;
+    color: #38bdf8;
+    font-weight: 900;
+    margin: 2px 0;
+}
+
+.sub-label {
+    font-size: 11px !important;
+    font-weight: 900;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+/* -----------------------------------------------------------------
+   7. DISPLAY POTENZA
+   ----------------------------------------------------------------- */
+
+.power-display-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+.power-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+}
+
+/* Totale centrale */
+.big-w {
+    font-size: 3.5rem !important;
+    font-weight: 900;
+    color: var(--accento);
+    line-height: 0.9;
+    margin: 0 !important;
+    white-space: nowrap;
+    cursor: default !important;
+    pointer-events: none;
+    user-select: none;
+    transition: color 0.3s ease;
+}
+
+.unit-hint {
+    font-size: 10px;
+    color: #94a3b8;
+    text-align: center;
+    display: block;
+    margin-bottom: 20px;
+    font-weight: 900;
+    cursor: default !important;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Colonne laterali (Fisso / Power Station) */
+.power-sub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 80px;
+}
+
+.sub-w-label {
+    font-size: 11px;
+    font-weight: 900;
+    color: #fbbf24;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.small-w {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #fbbf24;
+    line-height: 1;
+}
+
+
+/* -----------------------------------------------------------------
+   8. BADGE METEO
+   ----------------------------------------------------------------- */
+
+.weather-badges {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.w-badge {
+    background: var(--bg-badge) !important;
+    border: 1.5px solid var(--accento) !important;
+    backdrop-filter: blur(4px) saturate(150%);
+    border-radius: 20px;
+    padding: 12px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
+}
+
+.w-label {
+    font-size: 9px;
+    color: var(--accento);
+    font-weight: 900;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.w-val {
+    font-weight: 900;
+    font-size: 16px;
+    color: white;
+    line-height: 1.2;
+}
+
+
+/* -----------------------------------------------------------------
+   9. INPUT MANUALI (ORA, DATA, LAT, LNG)
+   ----------------------------------------------------------------- */
+
+.manual-controls {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+.manual-input {
+    background: var(--bg-badge) !important;
+    border: 1px solid var(--accento) !important;
+    backdrop-filter: blur(4px) saturate(150%);
+    color: #fff;
+    border-radius: 8px;
+    padding: 12px 5px;
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+/* Campo città */
+.location-box {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+.location-box input {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 3px solid var(--accento) !important;
+    color: var(--accento) !important;
+    font-size: 1.2rem !important;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
+    outline: none;
+    width: 80%;
+    padding: 10px 0;
+    margin-top: 5px;
+    transition: all 0.3s ease;
+}
+
+.location-box input:focus {
+    width: 90%;
+    filter: drop-shadow(0 0 8px var(--accento));
+}
+
+/* Pulsante GPS */
+.btn-live {
+    padding: 15px;
+    background: #fbbf24;
+    color: #0f172a;
+    border: none;
+    border-radius: 15px;
+    font-weight: 900;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 15px;
+    transition: all 0.4s ease;
+}
+
+
+/* -----------------------------------------------------------------
+   10. GRAFICO ORARIO (REPORT)
+   ----------------------------------------------------------------- */
+
+.chart-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 250px;
+    padding: 20px 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.bar {
+    flex: 1;
+    margin: 0 2px;
+    background: linear-gradient(to top, #fbbf24, #f59e0b);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.bar:hover {
+    background: #ffffff;
+    filter: drop-shadow(0 0 8px #fbbf24);
+}
+
+.bar::after { display: none; }
+
+.bar.active {
+    background: #ffffff !important;
+    transform: scaleY(1.05);
+    filter: drop-shadow(0 0 8px #fbbf24);
+}
+
+/* Box dettaglio (tocca una barra) */
+#detail-display {
+    text-align: center;
+    height: 40px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    color: #94a3b8;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    overflow: hidden;
+    box-sizing: border-box;
+    transition: color 0.3s ease, font-size 0.3s ease;
+}
+
+#detail-display b,
+#detail-display span {
+    font-size: 18px !important;
+    color: var(--accento);
+    font-weight: 900;
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+}
+
+/* Box produzione totale */
+.total-display-box {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+    padding: 15px 20px;
+    border-radius: 20px;
+    border-left: 5px solid #fbbf24;
+    margin: 20px 0;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+}
+
+.label-stack {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.label-stack span {
+    font-size: 11px;
+    font-weight: 900;
+    color: #94a3b8;
+    letter-spacing: 1.5px;
+    line-height: 1.2;
+}
+
+.value-huge,
+#total-wh-day {
+    font-size: 32px !important;
+    font-weight: 900;
+    color: #fbbf24;
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+    font-family: monospace;
+}
+
+/* Scroll giorni */
+.days-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 15px 5px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.days-container::-webkit-scrollbar { display: none; }
+
+.day-btn {
+    min-width: 60px;
+    padding: 10px;
+    background: var(--bg-badge);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.day-btn.active {
+    border-color: var(--accento);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px var(--accento);
+}
+
+.scroll-hint {
+    text-align: center;
+    font-size: 9px;
+    color: #94a3b8;
+    opacity: 0.5;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
+    width: 100%;
+}
+
+
+/* -----------------------------------------------------------------
+   11. SLIDER SOC (BATTERIA + POWER STATION)
+   ----------------------------------------------------------------- */
+
+.dual-slider-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.slider-box {
+    flex: 1;
+    background: rgba(30, 41, 59, 0.4) !important;
+    padding: 15px 12px;
+    border-radius: 24px;
+    border: 1px solid var(--accento) !important;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.slider-header span:first-child {
+    font-size: 10px;
+    font-weight: 900;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Numero percentuale SOC */
+.soc-number {
+    display: inline-block;
+    min-width: 65px;
+    text-align: right;
+    color: var(--accento) !important;
+    text-shadow: 0 0 8px rgba(56, 189, 248, 0.6) !important;
+    font-weight: 900 !important;
+    font-size: 24px !important;
+}
+
+/* Barra slider (fill dinamico tramite CSS custom property --value) */
+.slider-box input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 10px;
+    outline: none;
+    background: linear-gradient(
+        to right,
+        var(--accento) 0%,
+        var(--accento) var(--value, 50%),
+        rgba(255, 255, 255, 0.1) var(--value, 50%),
+        rgba(255, 255, 255, 0.1) 100%
+    ) !important;
+}
+
+/* Thumb dello slider */
+.slider-box input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    background: var(--accento) !important;
+    border: 3px solid #0f172a !important;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--accento);
+    transition: transform 0.2s ease;
+}
+
+.slider-box input[type=range]:active::-webkit-slider-thumb {
+    transform: scale(1.2);
+}
+
+/* Griglia tempi di ricarica (A 80%, A 90%, A 100%) */
+.report-grid.mini {
+    display: flex;
+    width: 100%;
+    gap: 4px;
+    margin-top: 15px;
+}
+
+.report-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 10px 5px;
+    min-height: 70px;
+}
+
+.report-item .lbl {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    margin-bottom: 5px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.report-item .val {
+    font-size: 1.2rem;
+    color: var(--accento);
+    font-weight: 800;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+
+/* -----------------------------------------------------------------
+   12. SEZIONE TILT (INCLINAZIONE PANNELLI)
+   ----------------------------------------------------------------- */
+
+/* Lo slider del tilt usa la stessa classe .styled-slider — standard HTML range */
+input[type=range] {
+    width: 100%;
+    accent-color: #38bdf8;
+}
+
+
+/* -----------------------------------------------------------------
+   13. GARAGE
+   ----------------------------------------------------------------- */
+
+.garage-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.garage-input-group .manual-input {
+    margin: 0;
+    flex: 1;
+}
+
+.garage-input-group .mini-btn {
+    height: 38px;
+    width: 45px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Gruppi di configurazione (Camper / Power Station) */
+.config-group {
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.group-header {
+    font-size: 10px;
+    font-weight: 800;
+    color: #94a3b8;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
+}
+
+/* Bordi colorati per distinguere i due impianti */
+.camper-border {
+    border-color: rgba(56, 189, 248, 0.25);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.05);
+}
+
+.ps-border {
+    border-color: rgba(251, 191, 36, 0.25);
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.05);
+}
+
+.config-grid-row {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 0 !important;
+}
+
+.config-cell {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cell-label {
+    font-size: 10px;
+    color: #94a3b8;
+    font-weight: 800;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.cell-value {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Valori di conversione Ah↔Wh */
+#batt_conv_val {
+    color: #38bdf8;
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#ps_conv_val {
+    color: #fbbf24;
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+    font-size: 11px;
+    font-weight: bold;
+}
+
+
+/* -----------------------------------------------------------------
+   14. PULSANTI (MINI-BTN, EDIT, SAVE)
+   Regola unica unificata per tutti i pulsanti operativi del Garage.
+   ----------------------------------------------------------------- */
+
+.mini-btn,
+.save-btn,
+.edit-btn,
+.edit-mini-btn {
+    background: var(--accento) !important;
+    color: #0f172a !important;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3), 0 0 10px var(--accento);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* I pulsanti EDIT sono più piccoli del SALVA */
+.edit-mini-btn,
+.edit-btn {
+    padding: 6px 12px;
+    font-size: 10px;
+}
+
+.mini-btn:hover,
+.save-btn:hover,
+.edit-btn:hover,
+.edit-mini-btn:hover {
+    filter: brightness(1.2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 0 20px var(--accento);
+}
+
+.mini-btn:active,
+.save-btn:active,
+.edit-btn:active,
+.edit-mini-btn:active {
+    transform: translateY(1px) scale(0.95);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2), 0 0 5px var(--accento);
+}
+
+
+/* -----------------------------------------------------------------
+   15. NAVBAR
+   ----------------------------------------------------------------- */
+
+.nav-bar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 550px;
+    height: 85px;
+    background: var(--bg-badge) !important;
+    backdrop-filter: blur(12px) saturate(160%);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 15px env(safe-area-inset-bottom);
+    border-radius: 20px;
+    border: 1px solid var(--accento) !important;
+    z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.nav-item {
+    background: transparent !important;
+    border: none !important;
+    color: #94a3b8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    flex: 1;
+    transition: all 0.3s ease;
+}
+
+.nav-item img,
+.nav-item span {
+    font-size: 28px;
+    transition: transform 0.3s ease;
+}
+
+.nav-item small {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-item.active {
+    color: var(--accento) !important;
+    text-shadow: 0 0 12px var(--accento);
+}
+
+.nav-item.active img,
+.nav-item.active span {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 8px var(--accento));
+}
+
+
+/* -----------------------------------------------------------------
+   16. MEDIA QUERY — MOBILE (max 768px)
+   ----------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .horizon-data {
+        padding: 0 25px !important;
+    }
+
+    .h-label {
+        font-size: 12px !important;
+    }
+
+    #sunrise-txt,
+    #sunset-txt {
+        font-size: 20px !important;
+        margin-top: 2px;
+    }
+}
+
+@media (max-width: 600px) {
+    .nav-bar {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: 80px;
+        margin: 0 !important;
+        padding: 0 10% env(safe-area-inset-bottom) 10%;
+        background: rgba(15, 23, 42, 0.98);
+        border-top: 1px solid rgba(56, 189, 248, 0.3);
+        border-radius: 0 !important;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 9999;
+        box-sizing: border-box !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .manual-controls {
+        gap: 8px;
+    }
+
+    .manual-input {
+        font-size: 13px;
+        padding: 10px 2px;
+    }
+
+    .power-display-container {
+        gap: 10px;
+    }
+
+    .sub-w-label {
+        font-size: 9px;
+    }
+
+    .small-w {
+        font-size: 1.2rem;
+    }
+
+    .big-w {
+        font-size: 2.8rem !important;
+    }
+
+    .power-main {
+        min-width: 90px;
+    }
+
+    /* Slider SOC su mobile */
+    .slider-header span:first-child {
+        display: block;
+        max-width: 90px;
+        line-height: 1.2;
+        font-size: 11px;
+        text-align: left;
+    }
+
+    .soc-number {
+        font-size: 1.4rem !important;
+    }
+
+    .report-grid.mini {
+        gap: 2px;
+        margin-top: 15px;
+    }
+
+    .report-item {
+        padding: 15px 5px;
+        border-radius: 4px;
+    }
+}
+
+
+/* -----------------------------------------------------------------
+   17. MEDIA QUERY — TABLET/PC (min 768px)
+   ----------------------------------------------------------------- */
+
+@media (min-width: 768px) {
+    /* Gli slider SOC si affiancano su schermi più larghi */
+    .dual-slider-container {
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .slider-box {
+        flex: 1;
+        padding: 20px;
+    }
+
+    .report-grid.mini {
+        gap: 4px;
+        margin-top: 20px;
+    }
+
+    .report-item {
+        flex: 1;
+        padding: 12px 5px;
+    }
+
+    .report-item .lbl {
+        font-size: 0.7rem;
+        color: #94a3b8;
+    }
+
+    .report-item .val {
+        font-size: 1.1rem;
+    }
+}
