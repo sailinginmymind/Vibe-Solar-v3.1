@@ -272,16 +272,29 @@ async function handleGpsSync() {
  * @param {number|string} lat - Latitudine
  * @param {number|string} lng - Longitudine
  */
+/**
+ * Recupera il nome della città e aggiorna sia lo span visibile che l'input.
+ */
 async function updateCityName(lat, lng) {
     try {
-        const url      = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=it`;
+        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=it`;
         const response = await fetch(url);
-        const data     = await response.json();
-        const city     = data.address.city || data.address.town || data.address.village || 'POSIZIONE';
-        const el       = document.getElementById('city-input');
-        if (el) el.value = city.toUpperCase();
+        const data = await response.json();
+        
+        // Trova il nome della città o del villaggio
+        const city = data.address.city || data.address.town || data.address.village || 'POSIZIONE';
+        const cityUpper = city.toUpperCase();
+
+        // 1. Aggiorna lo span che l'utente vede (quello col pin 📍)
+        const displayEl = document.getElementById('city-name-display');
+        if (displayEl) displayEl.innerText = `📍 ${cityUpper}`;
+
+        // 2. Aggiorna anche l'input (nel caso volessi riutilizzarlo per le ricerche)
+        const inputEl = document.getElementById('city-input');
+        if (inputEl) inputEl.value = cityUpper;
+
     } catch (e) {
-        // Fallimento silenzioso: il campo resta invariato
+        console.error("Errore geocoding:", e);
     }
 }
 
