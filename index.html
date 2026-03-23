@@ -60,105 +60,85 @@
         </div>
     </div> 
 
- <div id="view-energy" class="view">
-    <div class="card">
-        <div id="detail-display" style="text-align:center; color:#fbbf24; font-weight:bold; margin-bottom:10px; min-height:1.5em;">
-            Tocca una barra per i dettagli
-        </div>
-        <h3 class="section-title">PREVISIONE ODIERNA</h3>
-        <div id="hourly-chart" class="chart-container"></div>
-        <div class="total-display-box">
-            <div class="label-stack">
-                <span>PRODUZIONE</span>
-                <span>TOTALE <span class="eq-symbol">=</span></span>
+    <div id="view-energy" class="view">
+        <div class="card">
+            <div id="detail-display" style="text-align:center; color:#fbbf24; font-weight:bold; margin-bottom:10px; min-height:1.5em;">
+                Tocca una barra per i dettagli
             </div>
-            <div class="value-huge" id="total-wh-day">0 Wh</div>
-        </div>
-        <div id="days-selector" class="days-container"></div>
-        <div class="scroll-hint">← trascina per vedere altri giorni →</div>
-        
-        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:20px 0;">
-
-        <div class="tilt-card">
-            <div class="tilt-header">
-                <div class="tilt-title-stack">
-                    <span class="tilt-label">OTTIMIZZAZIONE INCLINAZIONE</span>
-                    <span class="tilt-sublabel">ANGOLO PANNELLI (TILT)</span>
+            <h3 class="section-title">PREVISIONE ODIERNA</h3>
+            <div id="hourly-chart" class="chart-container"></div>
+            <div class="total-display-box">
+                <div class="label-stack">
+                    <span>PRODUZIONE</span>
+                    <span>TOTALE <span class="eq-symbol">=</span></span>
                 </div>
-                <div class="tilt-value-badge">
-                    <span id="tilt-val">0</span>°
-                </div>
+                <div class="value-huge" id="total-wh-day">0 Wh</div>
             </div>
-
-            <div class="tilt-controls">
-                <input type="range" id="tilt-slider" min="0" max="90" step="5" value="0">
-                <div class="slider-range-labels">
-                    <span>PIANO (0°)</span>
-                    <span>VERTICALE (90°)</span>
-                </div>
-            </div>
-
-            <button id="btn-auto-tilt">AUTO ✨</button>
-
-            <div id="tilt-hint" style="display: none;">
-                Angolo ottimale suggerito: <span id="optimum-tilt-val">--</span>°
-            </div>
-        </div>
-        <h3 class="section-title">STATO CARICA</h3>
-        <div class="dual-slider-container">
+            <div id="days-selector" class="days-container"></div>
+            <div class="scroll-hint">← trascina per vedere altri giorni →</div>
             
-            <div class="slider-box">
-                <div class="slider-header">
-                    <span>BATT SERVIZIO</span>
-                    <span id="soc-val" class="soc-number">50%</span>
+            <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:20px 0;">
+
+            <div class="tilt-card">
+                <div class="tilt-header">
+                    <div class="tilt-title-stack">
+                        <span class="tilt-label">OTTIMIZZAZIONE INCLINAZIONE</span>
+                        <span class="tilt-sublabel">ANGOLO PANNELLI (TILT)</span>
+                    </div>
+                    <div class="tilt-value-badge">
+                        <span id="tilt-val">0</span>°
+                    </div>
                 </div>
-                <input type="range" id="soc-slider" min="0" max="100" value="50">
-                <div class="report-grid mini">
-                    <div class="report-item">
-                        <span class="lbl">A 80%</span>
-                        <b class="val" id="batt_charge_80_txt">--</b>
+
+                <div class="tilt-controls">
+                    <input type="range" id="tilt-slider" min="0" max="90" step="5" value="0">
+                    <div class="slider-range-labels">
+                        <span>PIANO (0°)</span>
+                        <span>VERTICALE (90°)</span>
                     </div>
-                    <div class="report-item">
-                        <span class="lbl">A 90%</span>
-                        <b class="val" id="batt_charge_90_txt">--</b>
-                    </div>
-                    <div class="report-item">
-                        <span class="lbl">A 100%</span>
-                        <b class="val" id="batt_charge_100_txt">--</b>
-                    </div>
+                </div>
+
+                <button id="btn-auto-tilt">AUTO ✨</button>
+
+                <div id="tilt-hint" style="display: none; font-size: 11px; color: #fbbf24; text-align: center; margin-top: 10px; font-style: italic;">
+                    Angolo ottimale suggerito: <span id="optimum-tilt-val">--</span>°
                 </div>
             </div>
 
-            <div class="slider-box">
-                <div class="slider-header">
-                    <span>POWER STATION</span>
-                    <span id="ps-soc-val" class="soc-number">50%</span>
+            <h3 class="section-title">STATO CARICA</h3>
+            <div class="dual-slider-container">
+                <div class="slider-box">
+                    <div class="slider-header">
+                        <span>BATT SERVIZIO</span>
+                        <span id="soc-val" class="soc-number">50%</span>
+                    </div>
+                    <input type="range" id="soc-slider" min="0" max="100" value="50">
+                    <div class="report-grid mini">
+                        <div class="report-item"><span class="lbl">A 80%</span><b class="val" id="batt_charge_80_txt">--</b></div>
+                        <div class="report-item"><span class="lbl">A 90%</span><b class="val" id="batt_charge_90_txt">--</b></div>
+                        <div class="report-item"><span class="lbl">A 100%</span><b class="val" id="batt_charge_100_txt">--</b></div>
+                    </div>
                 </div>
-                <input type="range" id="ps-soc-slider" min="0" max="100" value="50">
-                <div class="report-grid mini">
-                    <div class="report-item">
-                        <span class="lbl">A 80%</span>
-                        <b class="val" id="ps_charge_80_txt">--</b>
+
+                <div class="slider-box">
+                    <div class="slider-header">
+                        <span>POWER STATION</span>
+                        <span id="ps-soc-val" class="soc-number">50%</span>
                     </div>
-                    <div class="report-item">
-                        <span class="lbl">A 90%</span>
-                        <b class="val" id="ps_charge_90_txt">--</b>
-                    </div>
-                    <div class="report-item">
-                        <span class="lbl">A 100%</span>
-                        <b class="val" id="ps_charge_100_txt">--</b>
+                    <input type="range" id="ps-soc-slider" min="0" max="100" value="50">
+                    <div class="report-grid mini">
+                        <div class="report-item"><span class="lbl">A 80%</span><b class="val" id="ps_charge_80_txt">--</b></div>
+                        <div class="report-item"><span class="lbl">A 90%</span><b class="val" id="ps_charge_90_txt">--</b></div>
+                        <div class="report-item"><span class="lbl">A 100%</span><b class="val" id="ps_charge_100_txt">--</b></div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-</div>
 
-   <div id="view-garage" class="view">
+    <div id="view-garage" class="view">
         <div class="card">
             <h3 class="section-title">GARAGE</h3>
-            
             <div class="garage-input-group" style="margin-bottom: 25px;">
                 <input type="text" id="camper_name_input" placeholder="NOME CAMPER" class="manual-input">
                 <button id="btn-save-name" class="mini-btn">💾</button>
@@ -210,8 +190,6 @@
                 </div>
             </div>
 
-            
-
             <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
@@ -224,8 +202,7 @@
                 </div>
             </div>
         </div> 
-   </div> 
-
+    </div> 
 
     <nav class="nav-bar">
         <div class="nav-item active" data-view="live">
@@ -241,7 +218,6 @@
             <small>GARAGE</small>
         </div>
     </nav>
-
 </div> 
 
 <script src="weather-api.js"></script>
