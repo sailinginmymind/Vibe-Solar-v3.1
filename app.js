@@ -356,10 +356,20 @@ function updateReportUI(totalPower, sunH, setH) {
         const bar = document.createElement('div');
         bar.className    = 'bar';
         bar.style.height = Math.max(5, (hP / maxPotenza * 100)) + '%';
-        if (h === currentH) bar.style.background = 'var(--accento, #fbbf24)';
+        
+        // --- EVIDENZIAZIONE DINAMICA SINTONIZZATA COL TEMA ---
+        if (h === currentH) {
+            bar.style.background = 'var(--accento)';
+            bar.style.boxShadow  = '0 0 12px var(--accento)'; // Effetto bagliore
+            bar.style.opacity    = '1';
+        } else {
+            bar.style.opacity    = '0.4'; // Rende le altre barre più discrete
+        }
+
         bar.onclick = () => {
             const detail = document.getElementById('detail-display');
-            if (detail) detail.innerHTML = `<span style="color:#fbbf24;">ORE ${h}:00 → ${Math.round(hP)} W</span>`;
+            // Anche il testo del dettaglio ora segue il colore del tema
+            if (detail) detail.innerHTML = `<span style="color:var(--accento); font-weight:bold;">ORE ${h}:00 → ${Math.round(hP)} W</span>`;
         };
         chart.appendChild(bar);
     }
