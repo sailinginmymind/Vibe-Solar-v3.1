@@ -182,11 +182,6 @@ function initSliders() {
         const sunAlt = (hDec >= sunrise && hDec <= sunset)
             ? Math.sin(progress * Math.PI) * 65
             : 0;
-       if (sunAlt <= 0) {
-            btnAuto.innerText = 'NOTTE 🌙'; 
-            setTimeout(() => { btnAuto.innerText = 'AUTO ✨'; }, 1500);
-            return;
-        }
 
         // Arrotonda al multiplo di 5° più vicino (coerente con lo slider step=5)
         let idealTilt = Math.max(0, Math.min(90, 90 - sunAlt));
@@ -272,31 +267,16 @@ async function handleGpsSync() {
  * @param {number|string} lat - Latitudine
  * @param {number|string} lng - Longitudine
  */
-/**
- * Recupera il nome della città e aggiorna sia lo span visibile che l'input.
- */
 async function updateCityName(lat, lng) {
     try {
-        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=it`;
+        const url      = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&accept-language=it`;
         const response = await fetch(url);
-        const data = await response.json();
-        
-        // Trova il nome del comune
-        const city = data.address.city || data.address.town || data.address.village || 'POSIZIONE';
-        
-        // 1. Aggiorna l'input (così lo vedi e puoi scriverci sopra)
-        const inputEl = document.getElementById('city-input');
-        if (inputEl) {
-            inputEl.value = city.toUpperCase();
-            inputEl.style.display = 'inline-block'; // Assicuriamoci che sia visibile
-        }
-
-        // 2. Nascondi lo span di caricamento (se presente)
-        const displayEl = document.getElementById('city-name-display');
-        if (displayEl) displayEl.style.display = 'none';
-
+        const data     = await response.json();
+        const city     = data.address.city || data.address.town || data.address.village || 'POSIZIONE';
+        const el       = document.getElementById('city-input');
+        if (el) el.value = city.toUpperCase();
     } catch (e) {
-        console.error("Errore nel recupero città:", e);
+        // Fallimento silenzioso: il campo resta invariato
     }
 }
 
@@ -388,26 +368,11 @@ async function updateAll(isManualTime = false) {
         const sunH = SolarEngine.timeToDecimal(sunrise);
         const setH = SolarEngine.timeToDecimal(sunset);
 
-     // --- Calcolo Altezza Solare ---
+        // --- Calcolo Altezza Solare ---
         const progress    = (hDec - sunH) / (setH - sunH);
         const sunAltitude = (hDec >= sunH && hDec <= setH)
             ? Math.sin(progress * Math.PI) * 65
             : 0;
-
-        // --- Gestione Messaggio Auto-Tilt (Sole dormiente) ---
-        const hintBox = document.getElementById('tilt-hint');
-        if (hintBox) {
-            if (sunAltitude <= 0) {
-                // Messaggio quando il sole non c'è
-                hintBox.style.display = 'block';
-                hintBox.innerHTML = `🌙 <span style="font-style: italic; color: #94a3b8;">Il sole sta dormendo...</span>`;
-            } else {
-                // Ripristina il layout normale se il sole è sveglio
-                let ideal = Math.max(0, Math.min(90, 90 - sunAltitude));
-                ideal = Math.round(ideal / 5) * 5;
-                hintBox.innerHTML = `Consigliato: <strong id="optimum-tilt-val">${ideal}</strong>°`;
-            }
-        }
 
         // --- Calcolo Potenza Istantanea ---
         const pServ = SolarEngine.calculatePower(hDec, sunH, setH, state.panelWp,   cloudCover, state.panelTilt, sunAltitude);
