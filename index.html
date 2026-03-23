@@ -60,7 +60,7 @@
         </div>
     </div> 
 
-  <div id="view-energy" class="view">
+ <div id="view-energy" class="view">
     <div class="card">
         <div id="detail-display" style="text-align:center; color:#fbbf24; font-weight:bold; margin-bottom:10px; min-height:1.5em;">
             Tocca una barra per i dettagli
@@ -76,43 +76,34 @@
         </div>
         <div id="days-selector" class="days-container"></div>
         <div class="scroll-hint">← trascina per vedere altri giorni →</div>
+        
         <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:20px 0;">
-  <div class="tilt-card">
-    <div class="tilt-header">
-        <div class="tilt-title-stack">
-            <span class="tilt-label">OTTIMIZZAZIONE INCLINAZIONE</span>
-            <span class="tilt-sublabel">ANGOLO PANNELLI (TILT)</span>
-        </div>
-        <div class="tilt-value-badge">
-            <span id="tilt-val">0</span>°
-        </div>
-    </div>
 
-    <div class="tilt-controls">
-        <input type="range" id="tilt-slider" min="0" max="90" step="5" value="0">
-        <div class="slider-range-labels">
-            <span>PIANO (0°)</span>
-            <span>VERTICALE (90°)</span>
-        </div>
-    </div>
+        <div class="tilt-card">
+            <div class="tilt-header">
+                <div class="tilt-title-stack">
+                    <span class="tilt-label">OTTIMIZZAZIONE INCLINAZIONE</span>
+                    <span class="tilt-sublabel">ANGOLO PANNELLI (TILT)</span>
+                </div>
+                <div class="tilt-value-badge">
+                    <span id="tilt-val">0</span>°
+                </div>
+            </div>
 
-    <button id="btn-auto-tilt">AUTO ✨</button>
+            <div class="tilt-controls">
+                <input type="range" id="tilt-slider" min="0" max="90" step="5" value="0">
+                <div class="slider-range-labels">
+                    <span>PIANO (0°)</span>
+                    <span>VERTICALE (90°)</span>
+                </div>
+            </div>
 
-    <div id="tilt-hint" style="display: none;">
+            <button id="btn-auto-tilt">AUTO ✨</button>
+
+            <div id="tilt-hint" style="display: none;">
+                Angolo ottimale suggerito: <span id="optimum-tilt-val">--</span>°
+            </div>
         </div>
-</div>
-        
-        <input type="range" id="tilt-slider" class="styled-slider" min="0" max="90" step="5" value="0" style="width: 100%; cursor: pointer;">
-        
-        <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.65rem; color: #64748b; text-transform: uppercase; font-weight: bold;">
-            <span>Piano (0°)</span>
-            <span>Verticale (90°)</span>
-        </div>
-        <div id="tilt-hint" style="font-size: 10px; color: #fbbf24; text-align: center; margin-top: 10px; font-style: italic; display: none;">
-            Angolo ottimale suggerito: <span id="optimum-tilt-val">--</span>°
-        </div>
-    </div>
-</div>
         <h3 class="section-title">STATO CARICA</h3>
         <div class="dual-slider-container">
             
