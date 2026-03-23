@@ -155,7 +155,7 @@ function initSliders() {
         updateAll();
     });
 
-    // --- Pulsante AUTO-TILT ---
+   // --- Pulsante AUTO-TILT ---
     // Calcola il tilt ottimale per l'altezza solare corrente e lo applica
     const btnAuto    = document.getElementById('btn-auto-tilt');
     const hintBox    = document.getElementById('tilt-hint');
@@ -176,6 +176,13 @@ function initSliders() {
 
         const sunrise = SolarEngine.timeToDecimal(sunriseTxt);
         const sunset  = SolarEngine.timeToDecimal(sunsetTxt);
+
+        // --- AGGIUNTA LOGICA NOTTE ---
+        if (hDec < sunrise || hDec > sunset) {
+            btnAuto.innerText = 'IL SOLE STA DORMENDO... 🌙';
+            setTimeout(() => { btnAuto.innerText = 'AUTO ✨'; }, 2000);
+            return; // Blocca tutto e non cambia l'inclinazione
+        }
 
         // Calcolo altezza solare identico a quello usato in updateAll()
         const progress = (hDec - sunrise) / (sunset - sunrise);
@@ -202,8 +209,6 @@ function initSliders() {
 
         updateAll();
     });
-}
-
 
 /* =========================================================
    3. LOGICA GPS E COORDINATE
