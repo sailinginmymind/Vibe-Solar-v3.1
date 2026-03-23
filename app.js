@@ -530,4 +530,4 @@ function setupStars() {
         star.style.width = star.style.height = size;
         container.appendChild(star);
     }
-}"
+}
