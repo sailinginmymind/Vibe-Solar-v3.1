@@ -77,17 +77,30 @@
         <div id="days-selector" class="days-container"></div>
         <div class="scroll-hint">← trascina per vedere altri giorni →</div>
         <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:20px 0;">
-   <div class="config-group" style="border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.01); margin: 20px 0 25px 0;">
-    <div class="group-header" style="background: rgba(255, 255, 255, 0.03); color: #94a3b8; display: flex; justify-content: space-between; align-items: center; padding-right: 10px;">
-        <span>OTTIMIZZAZIONE INCLINAZIONE</span>
-        <button id="btn-auto-tilt" style="background: #38bdf8; color: #0f172a; border: none; border-radius: 4px; padding: 2px 8px; font-size: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;">AUTO ✨</button>
-    </div>
-    <div style="padding: 15px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <span style="font-size: 11px; color: #64748b; letter-spacing: 1px; font-weight: bold;">📐 ANGOLO PANNELLI (TILT)</span>
-            <div style="color: #fbbf24; font-weight: bold;"> <span id="tilt-val" style="font-size: 1.3rem;">0</span>°
-            </div>
+  <div class="tilt-card">
+    <div class="tilt-header">
+        <div class="tilt-title-stack">
+            <span class="tilt-label">OTTIMIZZAZIONE INCLINAZIONE</span>
+            <span class="tilt-sublabel">ANGOLO PANNELLI (TILT)</span>
         </div>
+        <div class="tilt-value-badge">
+            <span id="tilt-val">0</span>°
+        </div>
+    </div>
+
+    <div class="tilt-controls">
+        <input type="range" id="tilt-slider" min="0" max="90" step="5" value="0">
+        <div class="slider-range-labels">
+            <span>PIANO (0°)</span>
+            <span>VERTICALE (90°)</span>
+        </div>
+    </div>
+
+    <button id="btn-auto-tilt">AUTO ✨</button>
+
+    <div id="tilt-hint" style="display: none;">
+        </div>
+</div>
         
         <input type="range" id="tilt-slider" class="styled-slider" min="0" max="90" step="5" value="0" style="width: 100%; cursor: pointer;">
         
