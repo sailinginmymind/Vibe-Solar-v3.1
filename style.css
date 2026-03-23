@@ -725,10 +725,104 @@ h2 {
    12. SEZIONE TILT (INCLINAZIONE PANNELLI)
    ----------------------------------------------------------------- */
 
-/* Lo slider del tilt usa la stessa classe .styled-slider — standard HTML range */
-input[type=range] {
+/* Contenitore della scheda Tilt */
+.tilt-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Header della scheda (Titolo + Valore gradi) */
+.tilt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.tilt-header span {
+    font-size: 11px;
+    color: #94a3b8;
+    letter-spacing: 1px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.tilt-header b {
+    font-size: 1.4rem;
+    color: var(--accento);
+    text-shadow: 0 0 10px var(--bg-badge);
+}
+
+/* Slider Personalizzato (Sincronizzato col Tema) */
+input[type=range]#tilt-slider {
+    -webkit-appearance: none;
     width: 100%;
-    accent-color: #38bdf8;
+    height: 8px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+    margin: 20px 0;
+}
+
+/* Il "pallino" dello slider */
+input[type=range]#tilt-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accento); /* Si colora in base al tema! */
+    cursor: pointer;
+    border: 3px solid var(--bg-puro);
+    box-shadow: 0 0 12px var(--accento);
+    transition: transform 0.2s ease;
+}
+
+input[type=range]#tilt-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* Pulsante AUTO ✨ */
+#btn-auto-tilt {
+    width: 100%;
+    background: var(--bg-badge);
+    border: 1px solid var(--accento);
+    color: var(--accento);
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+#btn-auto-tilt:hover {
+    background: var(--accento);
+    color: white;
+    box-shadow: 0 0 20px var(--bg-badge);
+}
+
+/* Messaggio "Sole dormiente" o Suggerimento */
+#tilt-hint {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    text-align: center;
+    border-left: 3px solid var(--accento);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 
