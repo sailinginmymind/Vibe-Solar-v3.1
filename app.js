@@ -346,7 +346,7 @@ function updateReportUI(totalPower, sunH, setH) {
     const timeInput  = document.getElementById('input-time');
     const currentH   = (timeInput && timeInput.value) ? parseInt(timeInput.value.split(':')[0]) : -1;
 
-    for (let h = startH; h <= endH; h++) {
+ for (let h = startH; h <= endH; h++) {
         const hProgress  = (h - sunH) / (setH - sunH);
         const hAltitude  = Math.max(0, Math.sin(hProgress * Math.PI) * 65);
         const cloud      = state.weatherData.hourly.cloud_cover[h] || 0;
@@ -357,24 +357,29 @@ function updateReportUI(totalPower, sunH, setH) {
         bar.className    = 'bar';
         bar.style.height = Math.max(5, (hP / maxPotenza * 100)) + '%';
         
-        // --- EVIDENZIAZIONE DINAMICA SINTONIZZATA COL TEMA ---
+        // --- EVIDENZIAZIONE SINTONIZZATA COL TEMA ---
+        // Opacità sempre a 1 per tutte le barre come richiesto
+        bar.style.opacity = '1';
+
         if (h === currentH) {
+            // Barra ora attuale: colore del tema + bagliore
             bar.style.background = 'var(--accento)';
-            bar.style.boxShadow  = '0 0 12px var(--accento)'; // Effetto bagliore
-            bar.style.opacity    = '1';
+            bar.style.boxShadow  = '0 0 12px var(--accento)';
         } else {
-            bar.style.opacity    = '0.4'; // Rende le altre barre più discrete
+            // Altre barre: mantengono il colore base definito nel CSS (es. rgba(255,255,255,0.3))
+            // Non forziamo un colore fisso qui così rispettano lo stile originale
+            bar.style.background = ''; 
+            bar.style.boxShadow  = 'none';
         }
 
         bar.onclick = () => {
             const detail = document.getElementById('detail-display');
-            // Anche il testo del dettaglio ora segue il colore del tema
-            if (detail) detail.innerHTML = `<span style="color:var(--accento); font-weight:bold;">ORE ${h}:00 → ${Math.round(hP)} W</span>`;
+            if (detail) {
+                detail.innerHTML = `<span style="color:var(--accento); font-weight:bold;">ORE ${h}:00 → ${Math.round(hP)} W</span>`;
+            }
         };
         chart.appendChild(bar);
     }
-    if (totalDisplay) totalDisplay.innerText = Math.round(dailyTotal) + ' Wh';
-}
 
 /* =========================================================
    6. GARAGE
