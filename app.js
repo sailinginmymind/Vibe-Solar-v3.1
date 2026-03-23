@@ -368,11 +368,26 @@ async function updateAll(isManualTime = false) {
         const sunH = SolarEngine.timeToDecimal(sunrise);
         const setH = SolarEngine.timeToDecimal(sunset);
 
-        // --- Calcolo Altezza Solare ---
+     // --- Calcolo Altezza Solare ---
         const progress    = (hDec - sunH) / (setH - sunH);
         const sunAltitude = (hDec >= sunH && hDec <= setH)
             ? Math.sin(progress * Math.PI) * 65
             : 0;
+
+        // --- Gestione Messaggio Auto-Tilt (Sole dormiente) ---
+        const hintBox = document.getElementById('tilt-hint');
+        if (hintBox) {
+            if (sunAltitude <= 0) {
+                // Messaggio quando il sole non c'è
+                hintBox.style.display = 'block';
+                hintBox.innerHTML = `🌙 <span style="font-style: italic; color: #94a3b8;">Il sole sta dormendo...</span>`;
+            } else {
+                // Ripristina il layout normale se il sole è sveglio
+                let ideal = Math.max(0, Math.min(90, 90 - sunAltitude));
+                ideal = Math.round(ideal / 5) * 5;
+                hintBox.innerHTML = `Consigliato: <strong id="optimum-tilt-val">${ideal}</strong>°`;
+            }
+        }
 
         // --- Calcolo Potenza Istantanea ---
         const pServ = SolarEngine.calculatePower(hDec, sunH, setH, state.panelWp,   cloudCover, state.panelTilt, sunAltitude);
