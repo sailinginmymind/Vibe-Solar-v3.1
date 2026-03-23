@@ -378,9 +378,11 @@ function updateReportUI(totalPower, sunH, setH) {
                 detail.innerHTML = `<span style="color:var(--accento); font-weight:bold;">ORE ${h}:00 → ${Math.round(hP)} W</span>`;
             }
         };
-        chart.appendChild(bar);
-    }
- }
+        chart.appendChild(bar);
+    }
+
+    if (totalDisplay) totalDisplay.innerText = Math.round(dailyTotal) + ' Wh';
+}
 /* =========================================================
    6. GARAGE
    ========================================================= */
