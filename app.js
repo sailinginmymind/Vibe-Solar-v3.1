@@ -281,20 +281,22 @@ async function updateCityName(lat, lng) {
         const response = await fetch(url);
         const data = await response.json();
         
-        // Trova il nome della città o del villaggio
+        // Trova il nome del comune
         const city = data.address.city || data.address.town || data.address.village || 'POSIZIONE';
-        const cityUpper = city.toUpperCase();
-
-        // 1. Aggiorna lo span che l'utente vede (quello col pin 📍)
-        const displayEl = document.getElementById('city-name-display');
-        if (displayEl) displayEl.innerText = `📍 ${cityUpper}`;
-
-        // 2. Aggiorna anche l'input (nel caso volessi riutilizzarlo per le ricerche)
+        
+        // 1. Aggiorna l'input (così lo vedi e puoi scriverci sopra)
         const inputEl = document.getElementById('city-input');
-        if (inputEl) inputEl.value = cityUpper;
+        if (inputEl) {
+            inputEl.value = city.toUpperCase();
+            inputEl.style.display = 'inline-block'; // Assicuriamoci che sia visibile
+        }
+
+        // 2. Nascondi lo span di caricamento (se presente)
+        const displayEl = document.getElementById('city-name-display');
+        if (displayEl) displayEl.style.display = 'none';
 
     } catch (e) {
-        console.error("Errore geocoding:", e);
+        console.error("Errore nel recupero città:", e);
     }
 }
 
