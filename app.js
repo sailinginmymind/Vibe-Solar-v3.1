@@ -182,6 +182,11 @@ function initSliders() {
         const sunAlt = (hDec >= sunrise && hDec <= sunset)
             ? Math.sin(progress * Math.PI) * 65
             : 0;
+       if (sunAlt <= 0) {
+            btnAuto.innerText = 'NOTTE 🌙'; 
+            setTimeout(() => { btnAuto.innerText = 'AUTO ✨'; }, 1500);
+            return;
+        }
 
         // Arrotonda al multiplo di 5° più vicino (coerente con lo slider step=5)
         let idealTilt = Math.max(0, Math.min(90, 90 - sunAlt));
